@@ -1,0 +1,66 @@
+html,
+body,
+h3,
+div,
+p,
+span,
+ul,
+li,
+input,
+p,
+span,
+table {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box
+}
+
+input {
+    outline: none;
+}
+
+body {
+    background-color: #F5F5F5;
+}
+ul,
+li {
+    list-style: none
+}
+
+a {
+    text-decoration: none
+}
+/*自定义样式*/
+.layout {
+    padding-bottom: 3.7rem;
+}
+header.mint-header {
+    background-color: #1D9F49
+}
+
+h1.mint-header-title {
+    font-size: 1.3rem;
+}
+.mint-navbar-span {
+    font-size: 1.2rem;
+}
+
+/*适配*/
+
+@media screen and (max-width: 414px) {
+    html {
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    html {
+        font-size: 12px;
+    }
+}
