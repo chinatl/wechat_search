@@ -7,9 +7,13 @@ export default function (url, data, success) {
 		.set("Authorization", "Bearer " + localStorage.getItem('token'))
 		.send(JSON.stringify(data))
 		.then(res => {
-		console.log(res)
 			if(res.body){
 				success && success(res.body)
+			}
+		}).catch(err=>{
+			console.dir(err);
+			if(err.status == 500){
+				alert('网络错误')
 			}
 		})
 }

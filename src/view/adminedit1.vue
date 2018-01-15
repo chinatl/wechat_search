@@ -76,7 +76,45 @@
 		},
 		created() {
 			this.downLoad = downLoad;
-		},
+			console.log(location.href.split('#')[0])
+			request
+			.post(URL + 'param')
+			.set("Content-Type", "application/json")
+			.set("Authorization", "Bearer " + localStorage.getItem('token'))
+			.send(JSON.stringify({url:location.href.split('#')[0]}))
+			.then(res => {
+				console.log(res)
+				if(res.body){
+				var data = res.body;
+					wx.config({
+						debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+						appId: data.appid, // 必填，公众号的唯一标识
+						timestamp:data.timestamp , // 必填，生成签名的时间戳
+						nonceStr: data.noncestr, // 必填，生成签名的随机串
+						signature: data.signature,// 必填，签名，见附录1
+						jsApiList: ['chooseImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+					});
+					wx.ready(function(){
+						//判断当前客户端版本是否支持指定JS接口
+						wx.checkJsApi({
+							jsApiList: ['chooseImage', 'uploadImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+							success: function(res) {
+								// 以键值对的形式返回，可用的api值true，不可用为false
+								// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+								if(!res["checkResult"]["chooseImage"]) {
+									alert("当前客户端不支持上传图片");
+								}
+							}
+						});
+					});
+				}
+			}).catch(err=>{
+					console.dir(err);
+					if(err.status == 500){
+						alert('网络错误')
+					}
+				})
+			},
 		methods: {
 			getSrc(arr) {
 				var len = arr.length;
@@ -103,27 +141,24 @@
 				if(this.checkSrc(this.arr0)){
 					return 
 				}
-//				if(this.checkSrc(this.arr1)){
-//					return 
-//				}
-//				if(this.checkSrc(this.arr2)){
-//					return 
-//				}
-//				if(this.checkSrc(this.arr3)){
-//					return 
-//				}
-//				if(this.checkSrc(this.arr4)){
-//					return 
-//				}
-//				if(this.checkSrc(this.arr5)){
-//					return 
-//				}
-//				if(this.checkSrc(this.arr6)){
-//					return 
-//				}
-//				if(this.checkSrc(this.arr0)){
-//					return 
-//				}
+				if(this.checkSrc(this.arr1)){
+					return 
+				}
+				if(this.checkSrc(this.arr2)){
+					return 
+				}
+				if(this.checkSrc(this.arr3)){
+					return 
+				}
+				if(this.checkSrc(this.arr4)){
+					return 
+				}
+				if(this.checkSrc(this.arr5)){
+					return 
+				}
+				if(this.checkSrc(this.arr6)){
+					return 
+				}
 				this.$store.state.upload.loading = true;
 				request
 					.post(URL + 'claims')
@@ -149,7 +184,12 @@
 							});
 
 						}
-					})
+					}).catch(err=>{
+			            console.dir(err);
+			            if(err.status == 500){
+			              alert('网络错误')
+			            }
+			          })
 			},
 			change(e) {
 				this.type = e === '0' ? true : false;
@@ -264,7 +304,12 @@
 		/*width: 130px;*/
 		margin-left: 5px;
 	}
-	
+	.content .pictur img {
+		margin-right: 5px;
+		margin-bottom: 5px;
+		width: 55px;
+		height: 55px;
+	}
 	.imgs {
 		width: 50px;
 		height: 50px;

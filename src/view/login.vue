@@ -51,7 +51,7 @@
 				if(!this.pwd){
 					return 
 				}
-				this.login ='正在登陆...';
+				this.login ='正在登录...';
 				var _this = this;
 				request
 					.post(URL+'login')
@@ -60,8 +60,8 @@
 					.send(JSON.stringify({"user_name":this.username,"pwd":this.pwd}))
 					.then(function(res) {
 						if (res.body.code == 0){
-							_this.login ='登陆成功';
-							var data = res.body.data;
+							_this.login ='登录成功';
+							var data = res.body.msg;
 							localStorage.setItem('token',data);
 							var user =JSON.parse(Base64.decode(data.split('.')[1]))
 							if(user.user_type==='1'){
@@ -77,15 +77,16 @@
 						}
 						if(res.body.code != 0){
 							_this.tips = res.body.msg;
-							_this.login ='登陆';
+							_this.login ='登录';
 							_this.showTips = true
 						}
+					}).catch(err=>{
+						if(err.status !== 200){
+							this.login ='登录';
+							alert('网络错误')
+						}
 					})
-				 	.catch(function(err) {
-					  	alert('网络错误')
-				   });			
 
-				;
 			}
 		}
 	}
@@ -150,7 +151,7 @@
 	}
 	.tips {
 		margin-top:10px;
-		font-size: .12rem;
+		font-size: 1.12rem;
 		color:red
 	}
 </style>

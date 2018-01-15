@@ -10,5 +10,10 @@ export default function (url, data, success) {
 			if(res.body.code == 0){
 				success && success(res.body.data)
 			}
-		})
+		}).catch(err=>{
+						console.dir(err);
+						if(err.status == 500){
+							alert('网络错误')
+						}
+					})
 }

@@ -2,7 +2,7 @@
 	<div class='content'>
 		<p><label for="">{{msg}}：</label></p>
 	 <div class="pictur">
-         <div class="photos" id="photos">
+       <div class="photos" id="photos">
          <img :src="v"  v-for='v in lists'>
          <img :src="downLoad" alt="" @click="chooseImage" v-show='upload'/>
        </div>
@@ -22,8 +22,8 @@
 				msg:'',
 				downLoad:'',
 				msgs:'',
-        count_img:9,
-        upload:true
+        		count_img:9,
+        		upload:true
 			}
 		},
 		props:['list','title','name'],
@@ -46,41 +46,40 @@
                 _this.wxuploadImage(localIds);
             },
             fail: function (error) {
-                  this.$store.state.upload.loading = false;
+                  _this.$store.state.upload.loading = false;
                   alert(JSON.stringify(error));
               }
         });
       },
-      wxuploadImage(){
-          var _this = this;
+      wxuploadImage(localIds){
+          	var _this = this;
             var localId = localIds.pop();
             //解决IOS无法上传的坑
             if (localId.indexOf("wxlocalresource") != -1) {
                 localId = localId.replace("wxlocalresource", "wxLocalResource");
             }
-            this.$store.state.upload.loading = true;
+            _this.$store.state.upload.loading = true;
             wx.uploadImage({
                 localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
                 isShowProgressTips: 0, // 默认为1，显示进度提示
                 success: function (res) {
-                   this.$store.state.upload.loading = false;
-                    var str_img="";
+                   _this.$store.state.upload.loading = false;
                     var mediaId = res.serverId; // 返回图片的服务器端ID
-                    _this.imgList.push(res.serverId)
 //                    $("#chooseImage").attr("src",localIds);
-                    if(str_img!=""){
-                        _this.count_img--;
-                        _this.lists.push(localId)
+                    if(mediaId){
+                      _this.count_img--;
+                      _this.imgList.push(mediaId)
+                      _this.lists.push(localId);
                     }
                     if(_this.count_img==0){
-                        this.upload = false
+                        _this.upload = false;
                     }
                     if(localIds.length > 0){
-                        wxuploadImage(localIds);
+                        _this.wxuploadImage(localIds);
                     }
                 },
                 fail: function (error) {
-                    this.$store.state.upload.loading = false;
+                    _this.$store.state.upload.loading = false;
                     alert(JSON.stringify(error));
                 }
 

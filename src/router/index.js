@@ -15,7 +15,7 @@ import admininfo from '../view/admininfo'
 import adminpay from '../view/adminpay'
 import adminpayinfo from '../view/adminpayinfo'
 import adminsave from '../view/adminsave'
-import adminedit from '../view/adminedit'
+import adminedit from '../view/adminedit1'
 const router = [
 	{path:'/',redirect: '/login'},
 	{path:'/login',component:login,name:'login'},

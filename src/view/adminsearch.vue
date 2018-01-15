@@ -193,7 +193,12 @@
 						this.userInfoArr = res.body.data.insurance_info;
 						this.rend = true
 					}
-				})
+				}).catch(err=>{
+            console.dir(err);
+            if(err.status == 500){
+              alert('网络错误')
+            }
+          })
 
 			}
 		}
